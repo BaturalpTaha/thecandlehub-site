@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The CandleHub · Av yoksa av sensin.</title>
+<meta name="description" content="Türkçe trading eğitimi. Sinyal yok. Stop avından likiditeye, piyasanın nasıl çalıştığını sıfırdan, sırayla anlatıyoruz.">
+<link rel="canonical" href="https://www.thecandlehub.com/">
+<meta name="theme-color" content="#0B0907">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="The CandleHub · Av yoksa av sensin.">
+<meta property="og:description" content="Türkçe trading eğitimi. Sinyal yok. Piyasanın nasıl çalıştığını sıfırdan anlatıyoruz.">
+<meta property="og:url" content="https://www.thecandlehub.com/">
+<meta property="og:image" content="https://www.thecandlehub.com/medya/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="medya/muhur.svg" type="image/svg+xml">
+<link rel="preload" href="fontlar/oswald-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"The CandleHub","url":"https://www.thecandlehub.com/","email":"info@thecandlehub.com","slogan":"Av yoksa av sensin.","sameAs":["https://www.youtube.com/@thecandlehubcom","https://www.instagram.com/thecandlehubcom","https://www.tiktok.com/@thecandlehub"]}
+</script>
+</head>
+<body>
+<a class="atla" href="#ana">İçeriğe geç</a>
+<div class="ton" aria-hidden="true"></div>
+
+<header class="ust" data-ust>
+  <a class="marka" href="#giris" aria-label="The CandleHub, başa dön">
+    <svg class="muhur" viewBox="0 0 30 35" aria-hidden="true"><g transform="translate(3.5,2.5)" opacity=".5"><line x1="15" y1="24" x2="15" y2="34" stroke="#C94F4F" stroke-width="4"/><path d="M15 3C22.6 12.4 21.5 21.7 15 24C8.5 21.7 7.4 12.4 15 3Z" fill="#C94F4F"/></g><line x1="15" y1="24" x2="15" y2="34" stroke="#6FAE6F" stroke-width="4"/><path d="M15 3C22.6 12.4 21.5 21.7 15 24C8.5 21.7 7.4 12.4 15 3Z" fill="#C98A3E"/></svg>
+    <span>THE CANDLE<b>HUB</b></span>
+  </a>
+  <nav class="menu" id="menu" aria-label="Ana menü">
+    <a href="#stop-avi">Stop avı</a>
+    <a href="#kurallar">Kurallar</a>
+    <a href="#mufredat">Müfredat</a>
+    <a href="#videolar">Videolar</a>
+    <a href="#biz">Biz</a>
+    <a class="dugme dugme--kucuk" href="https://www.youtube.com/@thecandlehubcom?sub_confirmation=1" target="_blank" rel="noopener">YouTube'da abone ol</a>
+  </nav>
+  <button class="menu-ac" type="button" aria-expanded="false" aria-controls="menu" data-menu-ac>
+    <span class="menu-ac__cizgi"></span><span class="sr">Menüyü aç</span>
+  </button>
+</header>
+
+<main id="ana">
+
+<!-- 1 · GİRİŞ -->
+<section class="giris" id="giris" data-ton="alev">
+  <div class="giris__alev" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="auto" poster="medya/alev.jpg" data-alev>
+      <source src="medya/alev.webm" type="video/webm">
+      <source src="medya/alev.mp4" type="video/mp4">
+    </video>
+  </div>
+  <canvas class="giris__grafik" data-canli aria-hidden="true"></canvas>
+  <div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+  <div class="giris__metin">
+    <p class="etiket"><span>TÜRKÇE</span><span>TRADING EĞİTİMİ</span></p>
+    <h1 class="giris__baslik">
+      <span class="satir"><span>AV YOKSA</span></span>
+      <span class="satir satir--alev"><span>AV SENSİN.</span></span>
+    </h1>
+    <p class="giris__alt">Piyasada sana tesadüf gibi görünen hareketin çoğu birinin planıdır. O planın nasıl kurulduğunu sıfırdan, sırayla anlatıyoruz. <em>Al-sat sinyali vermeden.</em></p>
+    <div class="giris__dugmeler">
+      <a class="dugme" href="#stop-avi">Stop avını 4 adımda gör</a>
+      <a class="dugme dugme--hayalet" href="#videolar">Son videoyu izle</a>
+    </div>
+  </div>
+
+  <svg class="not not--alev" viewBox="0 0 220 120" aria-hidden="true">
+    <path class="ciz" d="M18 92 C 40 60, 90 40, 150 34" />
+    <path class="ciz" d="M138 24 L152 34 L136 42" />
+  </svg>
+  <p class="el el--alev" aria-hidden="true">bu bir mum</p>
+  <p class="el el--grafik" aria-hidden="true">bunlar da</p>
+  <div class="okuma" aria-hidden="true" data-okuma></div>
+</section>
+
+<!-- 2 · STOP AVI (kaydırmalı anlatım) -->
+<section class="stop" id="stop-avi" data-ton="gece" aria-labelledby="stop-baslik">
+  <header class="bolum-bas">
+    <p class="etiket"><span>BÖLÜM 30</span><span>ANA MÜFREDAT</span></p>
+    <h2 id="stop-baslik" class="maske"><span>Stopun neden hep tam dipten dönüyor?</span></h2>
+    <p class="bolum-bas__alt">Aşağı kaydır. Grafik, adım adım ne olduğunu çizecek.</p>
+  </header>
+
+  <div class="stop__sahne">
+    <div class="stop__yapiskan">
+      <div class="stop__cerceve">
+        <canvas data-stop aria-hidden="true"></canvas>
+        <p class="stop__kaynak">ÖRNEK ÇİZİM · GERÇEK FİYAT DEĞİL</p>
+        <ol class="stop__ilerleme" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
+      </div>
+    </div>
+    <div class="stop__adimlar">
+      <article class="adim" data-adim="0">
+        <p class="adim__no">01</p>
+        <h3>Eşit dipler</h3>
+        <p>Fiyat iki kez aynı seviyeden döndü. Ekrana bakan herkes aynı şeyi görüyor: "güçlü destek".</p>
+      </article>
+      <article class="adim" data-adim="1">
+        <p class="adim__no">02</p>
+        <h3>Stoplar birikir</h3>
+        <p>Destek bu kadar belliyken stoplar da hep aynı yere, seviyenin hemen altına konur. Orada bekleyen bir satış emri yığını oluşur.</p>
+      </article>
+      <article class="adim" data-adim="2">
+        <p class="adim__no">03</p>
+        <h3>Süpürme</h3>
+        <p>Fiyat seviyenin altına sarkar ve stopları tetikler. Tetiklenen her stop bir satış emridir; büyük alıcı için hazır bekleyen karşı taraftır.</p>
+      </article>
+      <article class="adim" data-adim="3">
+        <p class="adim__no">04</p>
+        <h3>Dönüş</h3>
+        <p>Stoplar dolunca aşağı itecek emir kalmaz ve fiyat döner. Sen tam dipte çıkmış olursun. Av yoksa, av sensin.</p>
+        <p class="adim__dip">Bu bir işlem önerisi değil, bir mekanizma. Ayrıntısı müfredatta <a href="#mufredat" data-kademe-ac="3">Bölüm 30–34</a> arasında.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · KURALLAR (kâğıt) -->
+<section class="kagit" id="kurallar" data-ton="acik" aria-labelledby="kural-baslik">
+  <div class="kagit__ic">
+    <p class="damga">KANAL KURALI · DEĞİŞMEZ</p>
+    <h2 id="kural-baslik" class="kagit__baslik"><span>SİNYAL</span> <span>YOK.</span></h2>
+
+    <ul class="seritler" aria-label="Bu kanalda asla söylenmeyenler">
+      <li><span>"şuradan al"</span><svg viewBox="0 0 300 40" aria-hidden="true"><path class="ciz ciz--mavi" d="M4 26 C 80 14, 190 30, 296 12"/></svg></li>
+      <li><span>"stop şuraya"</span><svg viewBox="0 0 300 40" aria-hidden="true"><path class="ciz ciz--mavi" d="M4 18 C 90 30, 200 8, 296 24"/></svg></li>
+      <li><span>"hedef şu"</span><svg viewBox="0 0 300 40" aria-hidden="true"><path class="ciz ciz--mavi" d="M4 24 C 70 10, 210 34, 296 16"/></svg></li>
+      <li><span>"3 ayda 10.000$"</span><svg viewBox="0 0 300 40" aria-hidden="true"><path class="ciz ciz--mavi" d="M4 20 C 100 8, 180 32, 296 18"/></svg></li>
+    </ul>
+
+    <div class="kagit__yerine">
+      <h3>Bunun yerine:</h3>
+      <ol>
+        <li>Mekanizmayı anlatırız: likidite neden birikir, süpürme nasıl olur.</li>
+        <li>Geçmiş veriyle test ederiz. İşe yaramıyorsa "yaramıyor" deriz.</li>
+        <li>Yaptığımız bir işlemi ancak sonradan, gerekçesiyle anlatırız.</li>
+        <li>Risk yönetimini ve psikolojiyi analizden önce öğretiriz.</li>
+      </ol>
+      <p class="kagit__neden"><span class="el el--koyu">neden mi?</span> Türkiye'de yatırım danışmanlığı SPK izni gerektirir. Biz danışman değiliz; eğitim veriyoruz.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · MÜFREDAT -->
+<section class="mufredat" id="mufredat" data-ton="mor" aria-labelledby="muf-baslik">
+  <header class="bolum-bas bolum-bas--genis">
+    <p class="etiket"><span>ANA MÜFREDAT</span><span>63 BÖLÜM</span></p>
+    <h2 id="muf-baslik" class="maske"><span>Sıfırdan likiditeye, tek çizgi.</span></h2>
+    <p class="bolum-bas__alt">Sıra önkoşula göre kurulu: her kademe bir öncekinin üstüne basar. Tıpkı bir yükseliş trendi gibi, her dip bir öncekinden yukarıda.</p>
+  </header>
+
+  <div class="harita">
+    <div class="harita__grafik">
+      <svg class="harita__svg" viewBox="0 0 1000 420" preserveAspectRatio="none" aria-hidden="true" data-harita-svg></svg>
+      <div class="harita__noktalar" role="tablist" aria-label="Müfredat kademeleri" data-kademeler></div>
+      <p class="el el--basla" aria-hidden="true">buradan başla</p>
+    </div>
+    <div class="harita__panel" role="tabpanel" tabindex="0" data-panel aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- 5 · VİDEOLAR -->
+<section class="videolar" id="videolar" data-ton="bordo" aria-labelledby="vid-baslik">
+  <header class="bolum-bas bolum-bas--yan">
+    <div>
+      <p class="etiket"><span>YOUTUBE</span><span>@THECANDLEHUBCOM</span></p>
+      <h2 id="vid-baslik" class="maske"><span>Pazar akşamı uzun video. Arada kısa sorular.</span></h2>
+    </div>
+    <div class="sekmeler" role="tablist" aria-label="Video türü" data-sekmeler>
+      <button role="tab" aria-selected="true" data-tur="hepsi">Hepsi</button>
+      <button role="tab" aria-selected="false" data-tur="uzun">Uzun</button>
+      <button role="tab" aria-selected="false" data-tur="kisa">Kısa</button>
+    </div>
+  </header>
+  <div class="video-alan" data-videolar aria-live="polite">
+    <p class="durum">Videolar yükleniyor…</p>
+  </div>
+</section>
+
+<!-- 6 · BİZ -->
+<section class="biz" id="biz" data-ton="kraft" aria-labelledby="biz-baslik">
+  <div class="biz__ic">
+    <blockquote class="biz__soz">
+      <p>“Bize hep sonucu gösterdiler. Mekanizmayı hiç kimse göstermedi.”</p>
+    </blockquote>
+    <div class="biz__metin">
+      <h2 id="biz-baslik" class="etiket"><span>BİZ KİMİZ</span><span>THE CANDLEHUB</span></h2>
+      <p>Yıllarca işlem yaptık, çok şeyi yanlış öğrendik ve bunun bedelini ödedik. The CandleHub'ı bu yüzden açtık: piyasanın gerçekte nasıl çalıştığını, sıfırdan ve adım adım anlatmak için.</p>
+      <p>Kimseye bir şey satmıyoruz, kimseye "şuradan al" demiyoruz. Her hafta buradayız, aynı açıklıkla.</p>
+      <ul class="baglantilar">
+        <li><a href="https://www.youtube.com/@thecandlehubcom" target="_blank" rel="noopener"><span class="baglantilar__yer">YouTube</span><span>@thecandlehubcom</span></a></li>
+        <li><a href="https://www.instagram.com/thecandlehubcom" target="_blank" rel="noopener"><span class="baglantilar__yer">Instagram</span><span>@thecandlehubcom</span></a></li>
+        <li><a href="https://www.tiktok.com/@thecandlehub" target="_blank" rel="noopener"><span class="baglantilar__yer">TikTok</span><span>@thecandlehub</span></a></li>
+        <li><a href="mailto:info@thecandlehub.com"><span class="baglantilar__yer">E-posta</span><span>info@thecandlehub.com</span></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="kapanis" aria-label="Slogan">
+    <div class="kapanis__alev" aria-hidden="true">
+      <video muted loop playsinline preload="none" poster="medya/alev.jpg" data-alev-son>
+        <source src="medya/alev.webm" type="video/webm">
+        <source src="medya/alev.mp4" type="video/mp4">
+      </video>
+    </div>
+    <p class="kapanis__soz">Av yoksa<br>av sensin.</p>
+    <p class="kapanis__imza">THE CANDLEHUB</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="alt">
+  <p class="alt__uyari"><strong>Yasal uyarı.</strong> Bu içerik yalnızca eğitim amaçlıdır; yatırım tavsiyesi değildir ve SPK mevzuatı kapsamında yatırım danışmanlığı faaliyeti oluşturmaz. Kaldıraçlı işlemler yüksek risk içerir.</p>
+  <div class="alt__satir">
+    <span>© 2026 The CandleHub</span>
+    <a href="yasal.html">Yasal uyarı ve gizlilik</a>
+    <a href="mailto:info@thecandlehub.com">info@thecandlehub.com</a>
+  </div>
+</footer>
+
+<dialog class="oynatici" data-oynatici aria-label="Video oynatıcı">
+  <div class="oynatici__ic">
+    <div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="oynatici__cerceve" data-oynatici-cerceve></div>
+    <div class="oynatici__alt">
+      <p class="oynatici__baslik" data-oynatici-baslik></p>
+      <a class="oynatici__yt" data-oynatici-yt href="https://www.youtube.com/@thecandlehubcom" target="_blank" rel="noopener">YouTube'da aç</a>
+      <button class="oynatici__kapat" type="button" data-oynatici-kapat autofocus>Kapat <kbd>Esc</kbd></button>
+    </div>
+  </div>
+</dialog>
+
+<script src="veri/mufredat.js"></script>
+<script src="veri/videolar.js"></script>
+<script src="js/grafik.js"></script>
+<script src="js/site.js"></script>
+</body>
+</html>
