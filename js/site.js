@@ -61,73 +61,104 @@
   }, { threshold: 0.18 });
   $$(".bolum-bas, .kagit__ic, .harita, .biz__ic, .kapanis, .adim").forEach(function (e) { AZ ? e.classList.add("gorundu") : gorGozcu.observe(e); });
 
-  /* ════════ müfredat haritası ════════ */
-  var M = window.CH_MUFREDAT || [];
+  var tarihBicim = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "short", year: "numeric" });
+  var tarihYaz = function (t) { return tarihBicim.format(new Date(t + "T12:00:00")); };
+  var buyuk = function (s) { return String(s).toLocaleUpperCase("tr-TR"); };
+  var ytAdres = function (id, kisa) { return (kisa ? "https://www.youtube.com/shorts/" : "https://www.youtube.com/watch?v=") + id; };
+
+  /* ════════ Sıfırdan Trading haritası (YouTube oynatma listesinden) ════════ */
+  var SERI = window.CH_SERI || {}, B = SERI.bolumler || [];
   var svg = $("[data-harita-svg]"), noktaKap = $("[data-kademeler]"), panel = $("[data-panel]");
   var NS = "http://www.w3.org/2000/svg";
-  var dipler = M.map(function (_, i) { return { x: 50 + i * 100, y: 388 - i * 29 }; });
-  var tepeler = dipler.map(function (d, i) { return { x: d.x + 50, y: d.y - 92 - (i % 3) * 10 }; });
-  if (svg && M.length) {
+  var adet = B.length + 1;                       // son nokta: sıradaki bölüm
+  var ara = 880 / Math.max(1, adet - 1);
+  var dipler = []; for (var di = 0; di < adet; di++) dipler.push({ x: 60 + di * ara, y: 384 - di * (250 / Math.max(1, adet - 1)) });
+  var tepeler = dipler.map(function (d, i) { return { x: d.x + ara / 2, y: d.y - 96 - (i % 3) * 10 }; });
+  var sayiEt = $("[data-seri-sayi]"); if (sayiEt && B.length) sayiEt.textContent = "BÖLÜM " + B[0].no + "–" + B[B.length - 1].no;
+
+  if (svg && B.length) {
     var yol = "M10 330 L" + dipler[0].x + " " + dipler[0].y;
-    dipler.forEach(function (d, i) { if (i) yol += " L" + d.x + " " + d.y; yol += " L" + tepeler[i].x + " " + tepeler[i].y; });
+    for (var pi = 0; pi < B.length; pi++) { if (pi) yol += " L" + dipler[pi].x + " " + dipler[pi].y; yol += " L" + tepeler[pi].x + " " + tepeler[pi].y; }
     var p1 = document.createElementNS(NS, "path"); p1.setAttribute("d", yol); p1.setAttribute("class", "yol"); p1.setAttribute("pathLength", "1");
-    var son = dipler[dipler.length - 1], ilk = dipler[0];
-    var egim = (son.y - ilk.y) / (son.x - ilk.x);
+    // sıradaki bölüm: henüz çizilmemiş, kesik çizgi
+    var sonT = tepeler[B.length - 1], sonD = dipler[B.length];
+    var p3 = document.createElementNS(NS, "path"); p3.setAttribute("class", "yol-gelecek");
+    p3.setAttribute("d", "M" + sonT.x + " " + sonT.y + " L" + sonD.x + " " + sonD.y + " L" + (sonD.x + 34) + " " + (sonD.y - 60));
+    var ilk = dipler[0], egim = (sonD.y - ilk.y) / (sonD.x - ilk.x);
     var p2 = document.createElementNS(NS, "path");
-    p2.setAttribute("d", "M" + (ilk.x - 40) + " " + (ilk.y - 40 * egim + 14) + " L" + (son.x + 90) + " " + (son.y + 90 * egim + 14));
+    p2.setAttribute("d", "M" + (ilk.x - 40) + " " + (ilk.y - 40 * egim + 14) + " L" + (sonD.x + 60) + " " + (sonD.y + 60 * egim + 14));
     p2.setAttribute("class", "trend");
-    svg.appendChild(p2); svg.appendChild(p1);
+    svg.appendChild(p2); svg.appendChild(p3); svg.appendChild(p1);
   }
 
   var secili = 0, dugmeler = [];
-  function aralik(k) { var b = k.bolumler; return "BÖLÜM " + b[0][0] + (b.length > 1 ? "–" + b[b.length - 1][0] : ""); }
-  function kademeSec(i, odak) {
+  function bolumSec(i, odak, kullanici) {
     secili = i;
     dugmeler.forEach(function (d, j) { d.setAttribute("aria-selected", String(j === i)); d.tabIndex = j === i ? 0 : -1; });
-    var k = M[i];
-    panel.setAttribute("aria-labelledby", "kademe-" + i);
+    var b = B[i], baslik = b.soru + (b.etiket ? " | " + b.etiket : "");
+    var oynat = 'data-oynat data-id="' + kacis(b.id) + '" data-tur="uzun" data-baslik="' + kacis(baslik) + '"';
+    panel.setAttribute("aria-labelledby", "bolum-" + i);
     panel.innerHTML =
-      '<div class="panel__ust"><span class="panel__kod">KADEME ' + (i + 1) + "/" + M.length + '</span><span class="panel__aralik">' + aralik(k) + "</span></div>" +
-      '<h3 class="panel__ad">' + kacis(k.ad) + "</h3>" +
-      '<p class="panel__ozet">' + kacis(k.ozet) + "</p>" +
-      (k.not ? '<p class="panel__not">' + kacis(k.not) + "</p>" : "") +
-      '<ol class="panel__liste">' + k.bolumler.map(function (b, j) {
-        return '<li style="animation-delay:' + (AZ ? 0 : j * 35) + 'ms"><span>' + String(b[0]).padStart(2, "0") + "</span><span>" + kacis(b[1]) + "</span></li>";
-      }).join("") + "</ol>";
-    if (odak) dugmeler[i].focus();
-    if (window.innerWidth <= 900) dugmeler[i].scrollIntoView({ block: "nearest", inline: "center", behavior: AZ ? "auto" : "smooth" });
+      '<div class="panel__ust"><span class="panel__kod">BÖLÜM ' + b.no + (b.etiket ? " · " + kacis(buyuk(b.etiket)) : "") + "</span>" +
+      '<span class="panel__aralik">' + tarihYaz(b.tarih) + (b.sure ? " · " + b.sure : "") + "</span></div>" +
+      '<h3 class="panel__ad">' + kacis(b.soru) + "</h3>" +
+      '<button type="button" class="panel__resim" ' + oynat + ' aria-label="Bölüm ' + b.no + ' videosunu oynat">' +
+        (b.kapak ? '<img src="' + kacis(b.kapak) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + "</button>" +
+      (b.aciklama ? '<p class="panel__ozet">' + kacis(b.aciklama) + "</p>" : "") +
+      '<div class="panel__dugmeler"><button type="button" class="dugme" ' + oynat + '>Bölümü izle</button>' +
+      '<a class="panel__yt" href="' + ytAdres(b.id) + '" target="_blank" rel="noopener">YouTube\'da aç</a></div>';
+    if (odak) dugmeler[i].focus({ preventScroll: true });
+    // telefonda seçili basamağı yatay şeritte ortala; sayfayı dikeyde kaydırma (ilk yüklemede hiç kaydırma)
+    if (kullanici && window.innerWidth <= 900) {
+      var d = dugmeler[i];
+      noktaKap.scrollTo({ left: d.offsetLeft - noktaKap.clientWidth / 2 + d.offsetWidth / 2, behavior: AZ ? "auto" : "smooth" });
+    }
   }
-  if (noktaKap && M.length) {
-    M.forEach(function (k, i) {
-      var b = document.createElement("button");
-      b.type = "button"; b.className = "kademe"; b.id = "kademe-" + i;
-      b.setAttribute("role", "tab"); b.setAttribute("aria-controls", "harita-panel");
-      b.setAttribute("aria-label", "Kademe " + (i + 1) + ": " + k.ad + ", " + aralik(k).toLocaleLowerCase("tr"));
-      b.style.left = (dipler[i].x / 10) + "%"; b.style.top = (dipler[i].y / 4.2 + 2.5) + "%";
-      b.style.transitionDelay = AZ ? "0s" : (0.25 + i * 0.16) + "s";
-      b.innerHTML = '<span class="kademe__ok" aria-hidden="true"></span><span class="kademe__etiket">' + k.kod + "</span>";
-      b.addEventListener("click", function () { kademeSec(i); });
-      b.addEventListener("keydown", function (e) {
+  if (noktaKap && B.length) {
+    B.forEach(function (b, i) {
+      var d = document.createElement("button");
+      d.type = "button"; d.className = "kademe"; d.id = "bolum-" + i;
+      d.setAttribute("role", "tab"); d.setAttribute("aria-controls", "harita-panel");
+      d.setAttribute("aria-label", "Bölüm " + b.no + ": " + b.soru);
+      d.style.left = (dipler[i].x / 10) + "%"; d.style.top = (dipler[i].y / 4.2 + 2.5) + "%";
+      d.style.transitionDelay = AZ ? "0s" : (0.25 + i * 0.16) + "s";
+      d.innerHTML = '<span class="kademe__ok" aria-hidden="true"></span><span class="kademe__etiket">' + b.no + "</span>";
+      d.addEventListener("click", function () { bolumSec(i, false, true); });
+      d.addEventListener("keydown", function (e) {
         var n = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
-        if (e.key === "Home") n = -secili; if (e.key === "End") n = M.length - 1 - secili;
+        if (e.key === "Home") n = -secili; if (e.key === "End") n = B.length - 1 - secili;
         if (n == null) return;
-        e.preventDefault(); kademeSec((secili + n + M.length) % M.length, true);
+        e.preventDefault(); bolumSec((secili + n + B.length) % B.length, true, true);
       });
-      noktaKap.appendChild(b); dugmeler.push(b);
+      noktaKap.appendChild(d); dugmeler.push(d);
     });
+    // sıradaki bölüm: tıklanmaz, yalnız işaret
+    var y = document.createElement("span");
+    y.className = "kademe kademe--yakinda";
+    y.style.left = (dipler[B.length].x / 10) + "%"; y.style.top = (dipler[B.length].y / 4.2 + 2.5) + "%";
+    y.style.transitionDelay = AZ ? "0s" : (0.25 + B.length * 0.16) + "s";
+    y.innerHTML = '<span class="kademe__ok" aria-hidden="true"></span><span class="kademe__etiket">SIRADAKİ</span>';
+    noktaKap.appendChild(y);
     panel.id = "harita-panel";
-    kademeSec(0);
+    bolumSec(0);
   } else if (panel) {
-    panel.innerHTML = '<p class="durum">Müfredat listesi yüklenemedi. Sayfayı yenilemeyi dene.</p>';
+    panel.innerHTML = '<p class="durum">Bölüm listesi yüklenemedi. <a href="https://www.youtube.com/playlist?list=PLIzRN-pOHxuc" target="_blank" rel="noopener">Seriyi YouTube\'da aç</a></p>';
   }
-  $$("[data-kademe-ac]").forEach(function (a) { a.addEventListener("click", function () { kademeSec(+a.dataset.kademeAc); }); });
+
+  /* ── "Biz kimiz" tanıtım videosu ── */
+  var tKap = $("[data-tanitim]"), T = SERI.tanitim;
+  if (tKap && T) {
+    tKap.innerHTML = '<button type="button" class="vkart" data-oynat data-id="' + kacis(T.id) + '" data-tur="uzun" data-baslik="' + kacis(T.soru) + '">' +
+      '<div class="vkart__resim">' + (T.kapak ? '<img src="' + kacis(T.kapak) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + "</div>" +
+      '<div class="vkart__ic"><p class="vkart__bilgi"><span class="vkart__tur">TANITIM</span>' + (T.sure ? "<span>" + T.sure + "</span>" : "") + "</p>" +
+      '<p class="vkart__baslik">' + kacis(T.soru) + "</p></div></button>";
+  }
 
   /* ════════ videolar ════════ */
   var V = window.CH_VIDEOLAR, alan = $("[data-videolar]");
-  var tarihBicim = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "short", year: "numeric" });
   function kart(v, sinif) {
-    var t = tarihBicim.format(new Date(v.tarih + "T12:00:00"));
-    return '<button type="button" class="vkart ' + (sinif || "") + '" data-id="' + kacis(v.id) + '" data-tur="' + v.tur + '" data-baslik="' + kacis(v.baslik) + '">' +
+    var t = tarihYaz(v.tarih);
+    return '<button type="button" class="vkart ' + (sinif || "") + '" data-oynat data-id="' + kacis(v.id) + '" data-tur="' + v.tur + '" data-baslik="' + kacis(v.baslik) + '">' +
       '<div class="vkart__resim">' + (v.kapak ? '<img src="' + kacis(v.kapak) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + "</div>" +
       '<div class="vkart__ic"><p class="vkart__bilgi"><span class="vkart__tur">' + (v.tur === "kisa" ? "KISA" : "UZUN") + "</span><span>" + t + "</span></p>" +
       '<p class="vkart__baslik">' + kacis(v.baslik) + "</p></div></button>";
@@ -173,13 +204,14 @@
   oy.addEventListener("close", function () { oyCer.innerHTML = ""; });
   oy.addEventListener("click", function (e) { if (e.target === oy) oyKapat(); });
   $("[data-oynatici-kapat]").addEventListener("click", oyKapat);
-  alan && alan.addEventListener("click", function (e) {
-    var k = e.target.closest(".vkart"); if (!k) return;
+  // sayfadaki her [data-oynat] öğesi (video kartı, müfredat bölümü, tanıtım, stop avı bağlantıları)
+  document.addEventListener("click", function (e) {
+    var k = e.target.closest("[data-oynat]"); if (!k) return;
     var id = k.dataset.id, dikey = k.dataset.tur === "kisa";
-    if (typeof oy.showModal !== "function") { window.open((dikey ? "https://www.youtube.com/shorts/" : "https://www.youtube.com/watch?v=") + id, "_blank", "noopener"); return; }
+    if (typeof oy.showModal !== "function") { window.open(ytAdres(id, dikey), "_blank", "noopener"); return; }
     oy.toggleAttribute("data-dikey", dikey);
     $("[data-oynatici-baslik]").textContent = k.dataset.baslik;
-    $("[data-oynatici-yt]").href = (dikey ? "https://www.youtube.com/shorts/" : "https://www.youtube.com/watch?v=") + id;
+    $("[data-oynatici-yt]").href = ytAdres(id, dikey);
     oyCer.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="' + kacis(k.dataset.baslik) + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
     oy.showModal();
   });

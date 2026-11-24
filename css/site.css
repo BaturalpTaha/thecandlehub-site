@@ -251,18 +251,31 @@ body[data-ton="kraft"] .ton{background:#17120B}
 @media (hover:hover) and (pointer:fine){.kademe:hover .kademe__etiket{border-color:var(--metin)}}
 .el--basla{position:absolute;left:-3%;bottom:-24%;color:var(--yesil);transform:rotate(-3deg)}
 
+/* sıradaki bölüm: kesik çizgi + soluk işaret (tıklanmaz) */
+.harita__svg .yol-gelecek{fill:none;stroke:rgba(237,230,214,.35);stroke-width:2;stroke-dasharray:5 7;vector-effect:non-scaling-stroke;opacity:0;transition:opacity .8s ease 2s}
+.gorundu .harita__svg .yol-gelecek{opacity:1}
+.kademe--yakinda{cursor:default}
+.kademe--yakinda .kademe__etiket{background:transparent;border-style:dashed;color:var(--solgun)}
+.kademe--yakinda .kademe__ok{border-bottom-color:rgba(143,151,138,.5)}
+
 .harita__panel{background:rgba(9,6,16,.55);border:1px solid rgba(237,230,214,.12);padding:clamp(22px,2.4vw,36px);min-height:420px}
 .harita__panel:focus-visible{outline-offset:-2px}
-.panel__ust{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:6px}
-.panel__kod{font:700 13px/1 var(--f-veri);letter-spacing:.08em;color:var(--yesil)}
-.panel__aralik{font:400 12px/1 var(--f-veri);letter-spacing:.06em;color:var(--solgun)}
-.panel__ad{font:700 clamp(30px,2.4vw + 10px,44px)/1 var(--f-baslik);margin:4px 0 10px}
-.panel__ozet{color:var(--govde);margin-bottom:18px}
-.panel__not{font-size:.88em;color:var(--alev);border-left:0;padding:10px 12px;background:rgba(201,138,62,.1);margin-bottom:16px}
-.panel__liste{list-style:none;margin:0;padding:0}
-.panel__liste li{display:grid;grid-template-columns:46px 1fr;gap:4px;padding:10px 0;border-top:1px solid rgba(237,230,214,.09);font-size:.96em;opacity:0;transform:translateY(6px);animation:satirGel .45s var(--cikis) forwards}
-.panel__liste li span:first-child{font:700 13px/1.75 var(--f-veri);color:var(--solgun)}
-@keyframes satirGel{to{opacity:1;transform:none}}
+.harita__panel>*{animation:panelGel .45s var(--cikis) both}
+@keyframes panelGel{from{opacity:0;transform:translateY(6px)}}
+.panel__ust{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px 16px;margin-bottom:8px}
+.panel__kod{font:700 12px/1.3 var(--f-veri);letter-spacing:.07em;color:var(--yesil)}
+.panel__aralik{font:400 12px/1 var(--f-veri);letter-spacing:.05em;color:var(--solgun)}
+.panel__ad{font:700 clamp(26px,1.6vw + 12px,38px)/1.05 var(--f-baslik);margin:2px 0 18px;text-wrap:balance}
+.panel__resim{position:relative;display:block;width:100%;aspect-ratio:16/9;padding:0;border:0;background:#1C1528;cursor:pointer;overflow:hidden}
+.panel__resim img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--cikis)}
+.panel__resim::after{content:"";position:absolute;left:14px;bottom:14px;width:46px;height:46px;background:var(--alev) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z' fill='%23140D05'/%3E%3C/svg%3E") center/22px no-repeat}
+@media (hover:hover) and (pointer:fine){.panel__resim:hover img{transform:scale(1.03)}}
+.panel__ozet{color:var(--govde);margin:18px 0 20px;font-size:.96em}
+.panel__dugmeler{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px}
+.panel__yt{color:var(--alev);font-weight:600;min-height:44px;display:inline-flex;align-items:center;text-underline-offset:3px}
+.seri-alt{padding:0 var(--kenar);margin-top:28px}
+.seri-alt a{color:var(--alev);font-weight:600;text-underline-offset:4px}
+.metin-dugme{display:inline;padding:0;background:none;border:0;color:var(--alev);font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;text-align:left}
 
 @media (max-width:900px){
   .harita{grid-template-columns:minmax(0,1fr)}
@@ -331,6 +344,8 @@ body[data-ton="kraft"] .ton{background:#17120B}
 .biz{padding:clamp(100px,14vh,170px) var(--kenar) clamp(70px,10vh,120px)}
 .biz__ic{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,6vw,100px);max-width:1300px;align-items:start}
 .biz__soz{margin:0}
+.biz__video{margin-top:clamp(32px,5vh,52px);max-width:620px}
+.biz__video .vkart__resim{aspect-ratio:16/9}
 .biz__soz p{font:400 clamp(34px,3.6vw + 8px,64px)/1.1 var(--f-serif);font-style:italic;letter-spacing:-.01em;text-wrap:balance}
 .biz__metin p{color:var(--govde);margin-bottom:16px;max-width:52ch}
 .biz__metin .etiket{display:flex;width:max-content;font-size:12px}
@@ -381,7 +396,8 @@ body[data-ton="kraft"] .ton{background:#17120B}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}
-  .maske>span,.satir>span,.giris__alt,.giris__dugmeler,.kademe,.panel__liste li{transform:none!important;transition:none!important;opacity:1!important}
+  .maske>span,.satir>span,.giris__alt,.giris__dugmeler,.kademe,.harita__panel>*{transform:none!important;transition:none!important;opacity:1!important}
+  .harita__svg .yol-gelecek{opacity:1;transition:none}
   .etiket,.el{clip-path:none!important;transition:none!important}
   .ciz,.harita__svg .yol{stroke-dashoffset:0!important;transition:none!important}
   .damga{opacity:1;transform:rotate(-2deg);transition:none}
