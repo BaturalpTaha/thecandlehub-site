@@ -6,6 +6,9 @@
   var AZ = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var kacis = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
 
+  // yüklenemeyen kapak görselini kaldır (satır içi onerror yerine; CSP satır içi betiğe izin vermez)
+  document.addEventListener("error", function (e) { if (e.target && e.target.tagName === "IMG") e.target.remove(); }, true);
+
   /* ── çizim yolları: stroke-dasharray için normalize ── */
   $$(".ciz").forEach(function (p) { p.setAttribute("pathLength", "1"); });
 
@@ -103,7 +106,7 @@
       '<span class="panel__aralik">' + tarihYaz(b.tarih) + (b.sure ? " · " + b.sure : "") + "</span></div>" +
       '<h3 class="panel__ad">' + kacis(b.soru) + "</h3>" +
       '<button type="button" class="panel__resim" ' + oynat + ' aria-label="Bölüm ' + b.no + ' videosunu oynat">' +
-        (b.kapak ? '<img src="' + kacis(b.kapak) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + "</button>" +
+        (b.kapak ? '<img src="' + kacis(b.kapak) + '" alt="" loading="lazy" decoding="async">' : "") + "</button>" +
       (b.aciklama ? '<p class="panel__ozet">' + kacis(b.aciklama) + "</p>" : "") +
       '<div class="panel__dugmeler"><button type="button" class="dugme" ' + oynat + '>Bölümü izle</button>' +
       '<a class="panel__yt" href="' + ytAdres(b.id) + '" target="_blank" rel="noopener">YouTube\'da aç</a></div>';
@@ -149,7 +152,7 @@
   var tKap = $("[data-tanitim]"), T = SERI.tanitim;
   if (tKap && T) {
     tKap.innerHTML = '<button type="button" class="vkart" data-oynat data-id="' + kacis(T.id) + '" data-tur="uzun" data-baslik="' + kacis(T.soru) + '">' +
-      '<div class="vkart__resim">' + (T.kapak ? '<img src="' + kacis(T.kapak) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + "</div>" +
+      '<div class="vkart__resim">' + (T.kapak ? '<img src="' + kacis(T.kapak) + '" alt="" loading="lazy" decoding="async">' : "") + "</div>" +
       '<div class="vkart__ic"><p class="vkart__bilgi"><span class="vkart__tur">TANITIM</span>' + (T.sure ? "<span>" + T.sure + "</span>" : "") + "</p>" +
       '<p class="vkart__baslik">' + kacis(T.soru) + "</p></div></button>";
   }
@@ -159,7 +162,7 @@
   function kart(v, sinif) {
     var t = tarihYaz(v.tarih);
     return '<button type="button" class="vkart ' + (sinif || "") + '" data-oynat data-id="' + kacis(v.id) + '" data-tur="' + v.tur + '" data-baslik="' + kacis(v.baslik) + '">' +
-      '<div class="vkart__resim">' + (v.kapak ? '<img src="' + kacis(v.kapak) + '" alt="" loading="lazy" decoding="async" onerror="this.remove()">' : "") + "</div>" +
+      '<div class="vkart__resim">' + (v.kapak ? '<img src="' + kacis(v.kapak) + '" alt="" loading="lazy" decoding="async">' : "") + "</div>" +
       '<div class="vkart__ic"><p class="vkart__bilgi"><span class="vkart__tur">' + (v.tur === "kisa" ? "KISA" : "UZUN") + "</span><span>" + t + "</span></p>" +
       '<p class="vkart__baslik">' + kacis(v.baslik) + "</p></div></button>";
   }
@@ -212,7 +215,7 @@
     oy.toggleAttribute("data-dikey", dikey);
     $("[data-oynatici-baslik]").textContent = k.dataset.baslik;
     $("[data-oynatici-yt]").href = ytAdres(id, dikey);
-    oyCer.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="' + kacis(k.dataset.baslik) + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+    oyCer.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) + '?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="' + kacis(k.dataset.baslik) + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
     oy.showModal();
   });
 })();
